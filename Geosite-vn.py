@@ -29,7 +29,17 @@ def main():
     # Danh sách các URL chứa các tệp JSON
     urls = [
         "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/block.json",
-        "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/adway.json"
+        "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/adway.json",
+        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/MVPS.json",
+        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/easylist.json",
+        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/yoyo.json",
+        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/black.json",
+        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/anudeep.json",
+        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/xiaomi.json",
+        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/dan.json",
+        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/spam404.json",
+        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/Kninja.json",
+        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/Redirect.json"
     ]
 
     # Thu thập tất cả các tên miền duy nhất từ các tệp JSON
@@ -39,11 +49,11 @@ def main():
     new_json_data = {"version": 1, "rules": [{"domain": unique_domains}]}
 
     # Ghi vào tệp JSON mới trong thư mục output_dir
-    output_json_filepath = os.path.join(output_dir, "combined_domains.json")
+    output_json_filepath = os.path.join(output_dir, "Geosite-vn.json")
     write_json_file(new_json_data, output_json_filepath)
 
     # Sử dụng tập lệnh Python để biên dịch tệp JSON mới thành tệp .srs
-    output_srs_filepath = os.path.join(output_dir, "combined_domains.srs")
+    output_srs_filepath = os.path.join(output_dir, "Geosite-vn.srs")
     os.system(f"sing-box rule-set compile --output {output_srs_filepath} {output_json_filepath}")
 
 if __name__ == "__main__":
