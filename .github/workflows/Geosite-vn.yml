@@ -44,5 +44,5 @@ jobs:
             git add .
             git commit --allow-empty-message --no-edit
             git branch -M rule-set
-            git remote add origin https://github-action:$GITHUB_TOKEN@github.com/Thaomtam/sing-box-rule-set-vn.git
+            git remote add origin https://github-action:$GITHUB_TOKEN@github.com/Thaomtam/Geosite-vn.git
             git push -u origin rule-set --force
