@@ -15,7 +15,7 @@ def fetch_domains_from_urls(urls):
             if "rules" in data:
                 for rule in data["rules"]:
                     if "domain" in rule:
-                        unique_domains.add(rule["domain"][0])
+                        unique_domains.update(rule["domain"])
 
     return list(unique_domains)
 
