@@ -29,8 +29,7 @@ def main():
     # Danh sách các URL chứa các tệp JSON
     urls = [
         "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/block.json",
-        "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/adway.json",
-        # Thêm các URL khác nếu cần thiết
+        "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/adway.json"
     ]
 
     # Thu thập tất cả các tên miền duy nhất từ các tệp JSON
