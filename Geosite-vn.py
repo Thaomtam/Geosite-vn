@@ -1,13 +1,29 @@
 import os
 import requests
 import json
-import dns.resolver
+import adns  # Thư viện DNS không đồng bộ
+import queue
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
 output_dir = "./rule-set"
 
-def fetch_domains_from_url(url, resolver):
+resolver = adns.init()  # Khởi tạo đối tượng adns
+cache = {}  # Cache dictionary
+
+def process_domain(domain):
+    if domain in cache:
+        return cache[domain]
+
+    try:
+        result = resolver.submit(domain, adns.rr.A)
+        ip = result.result().to_ip()  # Lấy IP 
+        cache[domain] = ip  # Lưu kết quả vào cache
+        return ip
+    except:
+        return None
+
+def fetch_domains_from_url(url):
     unique_domains = set()
     response = requests.get(url)
     if response.ok:
@@ -17,24 +33,47 @@ def fetch_domains_from_url(url, resolver):
                 if "domain" in rule_set and isinstance(rule_set["domain"], list):
                     for domain in rule_set["domain"]:
                         if isinstance(domain, str):
-                            try:
-                                # Sử dụng dns.resolver để kiểm tra tính hợp lệ của domain
-                                answers = resolver.resolve(domain)
-                                unique_domains.add(domain)
-                            except:
-                                # Bỏ qua các tên miền không hợp lệ
-                                pass
+                            unique_domains.add(domain)
     return unique_domains
 
 def fetch_domains_from_urls(urls):
     unique_domains = set()
-    resolver = dns.resolver.Resolver()
-    resolver.timeout = 1
-    resolver.lifetime = 1
     with ThreadPoolExecutor(max_workers=10) as executor:
-        futures = [executor.submit(fetch_domains_from_url, url, resolver) for url in urls]
-        for future in futures:
-            unique_domains.update(future.result())
+        domain_queue = queue.Queue()
+        result_queue = queue.Queue()
+
+        # Đưa các domain vào domain_queue
+        for url in urls:
+            domains = fetch_domains_from_url(url)
+            for domain in domains:
+                domain_queue.put(domain)
+
+        # Workers lấy miền từ domain_queue, xử lý và đưa kết quả vào result_queue
+        def worker():
+            while True:
+                domain = domain_queue.get()
+                if domain is None:
+                    break
+                ip = process_domain(domain)
+                if ip is not None:
+                    result_queue.put(ip)
+                domain_queue.task_done()
+
+        # Khởi tạo và chạy các workers
+        threads = []
+        for _ in range(10):
+            t = threading.Thread(target=worker)
+            t.start()
+            threads.append(t)
+
+        # Chờ cho tất cả các workers hoàn thành
+        for t in threads:
+            t.join()
+
+        # Thu thập kết quả từ result_queue
+        while not result_queue.empty():
+            unique_domains.add(result_queue.get())
+
     return list(unique_domains)
 
 def write_json_file(data, filepath):
