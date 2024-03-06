@@ -16,12 +16,13 @@ def fetch_domains_from_urls(urls):
             if "rules" in data:
                 for rule in data["rules"]:
                     if "domain" in rule:
-                        domain = rule["domain"]
-                        try:
-                            dns.resolver.query(domain, "MX")
-                            valid_domains.add(domain)
-                        except dns.resolver.NXDOMAIN:
-                            pass
+                        domains = rule["domain"]
+                        for domain in domains:
+                            try:
+                                dns.resolver.query(domain, "MX")
+                                valid_domains.add(domain)
+                            except dns.resolver.NXDOMAIN:
+                                pass
 
     unique_domains = valid_domains
     return list(unique_domains)
