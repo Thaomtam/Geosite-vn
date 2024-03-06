@@ -27,6 +27,11 @@ jobs:
           python3 -m venv venv
           source venv/bin/activate
           pip3 install -r requirements.txt
+      - name: "Install system dependencies for adns"
+        run: | 
+          set -Eeuo pipefail
+          sudo apt-get update
+          sudo apt-get install -y libadns1-dev  # Example, adjust as needed
       - name: "Update rule-set"
         run: |
           set -Eeuo pipefail
