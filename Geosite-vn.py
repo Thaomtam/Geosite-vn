@@ -1,15 +1,18 @@
 import os
 import requests
 import json
-import adns  # Thư viện DNS không đồng bộ
+import dns.resolver  # Replace 'adns' with 'dnspython'
 import queue
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
 output_dir = "./rule-set"
 
-resolver = adns.init()  # Khởi tạo đối tượng adns
+resolver = dns.resolver.Resolver()  # Use 'dns.resolver.Resolver()' for DNS resolution
 cache = {}  # Cache dictionary
+
+# Replace the rest of the code according to the earlier suggestion using 'dns.resolver'
+
 
 def process_domain(domain):
     if domain in cache:
