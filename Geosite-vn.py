@@ -8,20 +8,26 @@ output_dir = "./rule-set"
 def fetch_domains_from_urls(urls):
     unique_domains = set()
 
+    resolver = dns.resolver.Resolver()
+
     for url in urls:
         response = requests.get(url)
         if response.ok:
             data = response.json()
-            if "rules" in data:
-                for rule in data["rules"]:
-                    if "domain" in rule:
-                        domain = rule["domain"]
-                        if isinstance(domain, str):  # Kiểm tra xem domain có phải là một chuỗi không
-                            unique_domains.add(domain)
+            if "rules" in data and isinstance(data["rules"], list):
+                for rule_set in data["rules"]:
+                    if "domain" in rule_set and isinstance(rule_set["domain"], list):
+                        for domain in rule_set["domain"]:
+                            if isinstance(domain, str):
+                                try:
+                                    # Sử dụng dns.resolver để kiểm tra tính hợp lệ của domain
+                                    answers = resolver.resolve(domain)
+                                    unique_domains.add(domain)
+                                except:
+                                    # Bỏ qua các tên miền không hợp lệ
+                                    pass
 
     return list(unique_domains)
-
-
 
 def write_json_file(data, filepath):
     with open(filepath, "w") as f:
