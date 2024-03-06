@@ -27,7 +27,7 @@ jobs:
             python3 -m venv venv
             source venv/bin/activate
             pip3 install -r requirements.txt
-            pip3 install adns  # Add this line to install the adns module
+            pip3 install dnspython  # Replace 'adns' with 'dnspython'
       - name: "Update rule-set"
         run: |
             set -Eeuo pipefail
