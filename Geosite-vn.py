@@ -52,12 +52,8 @@ def main():
         "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/easylist.json",
         "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/yoyo.json",
         "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/black.json",
-        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/anudeep.json",
         "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/xiaomi.json",
-        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/dan.json",
         "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/spam404.json",
-        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/Kninja.json",
-        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/Redirect.json"
     ]
 
     # Thu thập tất cả các tên miền duy nhất từ các tệp JSON
