@@ -2,31 +2,39 @@ import os
 import requests
 import json
 import dns.resolver
+import threading
+from concurrent.futures import ThreadPoolExecutor
 
 output_dir = "./rule-set"
 
+def fetch_domains_from_url(url, resolver):
+    unique_domains = set()
+    response = requests.get(url)
+    if response.ok:
+        data = response.json()
+        if "rules" in data and isinstance(data["rules"], list):
+            for rule_set in data["rules"]:
+                if "domain" in rule_set and isinstance(rule_set["domain"], list):
+                    for domain in rule_set["domain"]:
+                        if isinstance(domain, str):
+                            try:
+                                # Sử dụng dns.resolver để kiểm tra tính hợp lệ của domain
+                                answers = resolver.resolve(domain)
+                                unique_domains.add(domain)
+                            except:
+                                # Bỏ qua các tên miền không hợp lệ
+                                pass
+    return unique_domains
+
 def fetch_domains_from_urls(urls):
     unique_domains = set()
-
     resolver = dns.resolver.Resolver()
-
-    for url in urls:
-        response = requests.get(url)
-        if response.ok:
-            data = response.json()
-            if "rules" in data and isinstance(data["rules"], list):
-                for rule_set in data["rules"]:
-                    if "domain" in rule_set and isinstance(rule_set["domain"], list):
-                        for domain in rule_set["domain"]:
-                            if isinstance(domain, str):
-                                try:
-                                    # Sử dụng dns.resolver để kiểm tra tính hợp lệ của domain
-                                    answers = resolver.resolve(domain)
-                                    unique_domains.add(domain)
-                                except:
-                                    # Bỏ qua các tên miền không hợp lệ
-                                    pass
-
+    resolver.timeout = 1
+    resolver.lifetime = 1
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        futures = [executor.submit(fetch_domains_from_url, url, resolver) for url in urls]
+        for future in futures:
+            unique_domains.update(future.result())
     return list(unique_domains)
 
 def write_json_file(data, filepath):
