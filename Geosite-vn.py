@@ -7,7 +7,6 @@ output_dir = "./rule-set"
 
 def fetch_domains_from_urls(urls):
     unique_domains = set()
-    valid_domains = set()
 
     for url in urls:
         response = requests.get(url)
@@ -17,14 +16,11 @@ def fetch_domains_from_urls(urls):
                 for rule in data["rules"]:
                     if "domain" in rule:
                         domain = rule["domain"]
-                        try:
-                            dns.resolver.resolve(domain, "MX")
-                            valid_domains.add(domain)
-                        except dns.resolver.NXDOMAIN:
-                            pass
+                        if isinstance(domain, str):  # Kiểm tra xem domain có phải là một chuỗi không
+                            unique_domains.add(domain)
 
-    unique_domains = valid_domains
     return list(unique_domains)
+
 
 
 def write_json_file(data, filepath):
