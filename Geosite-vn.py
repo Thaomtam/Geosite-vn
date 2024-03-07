@@ -6,6 +6,13 @@ from json.decoder import JSONDecodeError
 
 output_dir = "./rule-set"
 
+def is_domain_active(domain):
+    try:
+        response = requests.head("http://" + domain)
+        return response.status_code == 200
+    except requests.exceptions.RequestException:
+        return False
+
 def fetch_domains_from_url(url):
     unique_domains = set()
     try:
