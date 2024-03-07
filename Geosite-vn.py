@@ -1,17 +1,8 @@
 import os
 import requests
 import json
-from concurrent.futures import ThreadPoolExecutor
-from json.decoder import JSONDecodeError
 
 output_dir = "./rule-set"
-
-def is_domain_active(domain):
-    try:
-        response = requests.head("http://" + domain)
-        return response.status_code == 200
-    except requests.exceptions.RequestException:
-        return False
 
 def fetch_domains_from_url(url):
     unique_domains = set()
@@ -27,15 +18,10 @@ def fetch_domains_from_url(url):
                             unique_domains.add(domain)
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data from {url}: {e}")
-    except JSONDecodeError as e:
+    except json.JSONDecodeError as e:
         print(f"Error decoding JSON data from {url}: {e}")
 
-    active_domains = set()
-    for domain in unique_domains:
-        if is_domain_active(domain):
-            active_domains.add(domain)
-
-    return active_domains
+    return unique_domains
 
 # Các hàm khác không cần thay đổi
 
@@ -45,8 +31,7 @@ def main():
     urls = [
         "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/block.json",
         "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/adway.json",
-        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/xiaomi.json",
-        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/spam404.json"
+        "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/adservers.json"
     ]
 
     unique_domains = set()
