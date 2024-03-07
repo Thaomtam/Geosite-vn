@@ -31,7 +31,9 @@ def main():
     urls = [
         "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/block.json",
         "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/adway.json",
-        "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/adservers.json"
+        "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/adservers.json",
+        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/adway.json",
+        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/easylist.json"
     ]
 
     unique_domains = set()
