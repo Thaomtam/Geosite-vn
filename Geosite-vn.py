@@ -41,8 +41,10 @@ def main():
     new_json_data = {"version": 1, "rules": [{"domain": list(unique_domains)}]}
 
     output_json_filepath = os.path.join(output_dir, "Geosite-vn.json")
-with open(output_json_filepath, 'w') as f:
-    json.dump(new_json_data, f, indent=4)
+
+    # Đảm bảo output_json_filepath được định nghĩa trước khi sử dụng
+    with open(output_json_filepath, 'w') as f:
+        json.dump(new_json_data, f, indent=4)
 
     output_srs_filepath = os.path.join(output_dir, "Geosite-vn.srs")
     os.system(f"sing-box rule-set compile --output {output_srs_filepath} {output_json_filepath}")
