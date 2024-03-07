@@ -33,7 +33,10 @@ def main():
         "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/adway.json",
         "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/adservers.json",
         "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/adway.json",
-        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/easylist.json"
+        "https://github.com/Thaomtam/sing-box-rule-set-vn/raw/rule-set/easylist.json",
+        "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/MVPS.json",
+        "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/yoyo.json",
+        "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/threat.json"
     ]
 
     unique_domains = set()
