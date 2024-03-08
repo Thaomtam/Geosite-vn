@@ -37,7 +37,8 @@ def main():
         "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/MVPS.json",
         "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/yoyo.json",
         "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/threat.json",
-        "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/d3host.json"
+        "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/d3host.json",
+        "https://raw.githubusercontent.com/Thaomtam/sing-box-rule-set-vn/rule-set/abpvn.json"
     ]
 
     unique_domains = set()
