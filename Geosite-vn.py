@@ -17,7 +17,7 @@ def fetch_domains_from_url(url):
                         if isinstance(domain, str):
                             unique_domains.add(domain)
 
-        sorted_domains = sorted(list(unique_domains))  # Sắp xếp danh sách các tên miền
+        sorted_domains = sorted(list(unique_domains), key=str.lower)  # Sắp xếp theo thứ tự chữ cái không phân biệt chữ hoa chữ thường
         return sorted_domains
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data from {url}: {e}")
@@ -25,6 +25,7 @@ def fetch_domains_from_url(url):
         print(f"Error decoding JSON data from {url}: {e}")
 
     return []
+
 
 
 # Các hàm khác không cần thay đổi
