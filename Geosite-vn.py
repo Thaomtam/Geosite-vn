@@ -16,12 +16,16 @@ def fetch_domains_from_url(url):
                     for domain in rule_set["domain"]:
                         if isinstance(domain, str):
                             unique_domains.add(domain)
+
+        sorted_domains = sorted(list(unique_domains))  # Sắp xếp danh sách các tên miền
+        return sorted_domains
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data from {url}: {e}")
     except json.JSONDecodeError as e:
         print(f"Error decoding JSON data from {url}: {e}")
 
-    return unique_domains
+    return []
+
 
 # Các hàm khác không cần thay đổi
 
