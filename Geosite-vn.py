@@ -32,15 +32,12 @@ def fetch_domains_from_url(url):
 
     return []
 
-def get_top_level_domains(domains):
-    top_level_domains = set()
+def filter_valid_domains(domains):
+    valid_domains = set()
     for domain in domains:
-        parts = domain.split('.')
-        if len(parts) > 1:
-            top_level_domains.add(parts[-2] + '.' + parts[-1])
-        else:
-            top_level_domains.add(domain)
-    return sorted(top_level_domains, key=str.lower)
+        if "*" not in domain:
+            valid_domains.add(domain)
+    return sorted(valid_domains, key=str.lower)
 
 def main():
     os.makedirs(output_dir, exist_ok=True)
@@ -78,12 +75,12 @@ def main():
     else:
         logging.info("Rule-set compiled successfully.")
 
-    # Create domain.json with only top-level domains
-    top_level_domains = get_top_level_domains(sorted_domains)
-    domain_json_filepath = os.path.join(output_dir, "domain.json")
-    with open(domain_json_filepath, 'w') as f:
-        json.dump(top_level_domains, f, indent=4)
-        logging.info(f"domain.json created at {domain_json_filepath}")
+    # Create tenmien.json with only valid domains
+    valid_domains = filter_valid_domains(sorted_domains)
+    tenmien_filepath = os.path.join(output_dir, "tenmien.json")
+    with open(tenmien_filepath, 'w') as f:
+        json.dump(valid_domains, f, indent=4)
+        logging.info(f"tenmien.json created at {tenmien_filepath}")
 
 if __name__ == "__main__":
     main()
