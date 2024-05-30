@@ -7,4 +7,4 @@ Bộ tập luật này chứa các quy tắc để chặn quảng cáo và các 
 
 ### Tập luật chặn quảng cáo
 Dành cho adblock, adguard, pihole,v..vv...
-- **DOMAIN-BLOCK:** [Link](/../../raw/rule-set/domain.json)
+- **DOMAIN-BLOCK:** [Link](/../../raw/rule-set/tenmien.json)
