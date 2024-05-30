@@ -32,6 +32,16 @@ def fetch_domains_from_url(url):
 
     return []
 
+def get_top_level_domains(domains):
+    top_level_domains = set()
+    for domain in domains:
+        parts = domain.split('.')
+        if len(parts) > 1:
+            top_level_domains.add(parts[-2] + '.' + parts[-1])
+        else:
+            top_level_domains.add(domain)
+    return sorted(top_level_domains, key=str.lower)
+
 def main():
     os.makedirs(output_dir, exist_ok=True)
 
@@ -68,11 +78,11 @@ def main():
     else:
         logging.info("Rule-set compiled successfully.")
 
-    # Create domain.json with the list of domains
-    domain_json_data = sorted_domains  # Just the list of domains
+    # Create domain.json with only top-level domains
+    top_level_domains = get_top_level_domains(sorted_domains)
     domain_json_filepath = os.path.join(output_dir, "domain.json")
     with open(domain_json_filepath, 'w') as f:
-        json.dump(domain_json_data, f, indent=4)
+        json.dump(top_level_domains, f, indent=4)
         logging.info(f"domain.json created at {domain_json_filepath}")
 
 if __name__ == "__main__":
