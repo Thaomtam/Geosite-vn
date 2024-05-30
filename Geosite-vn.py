@@ -22,9 +22,7 @@ def fetch_domains_from_url(url):
                     for domain in rule_set["domain"]:
                         if isinstance(domain, str):
                             unique_domains.add(domain)
-
-        sorted_domains = sorted(list(unique_domains), key=str.lower)  # Sắp xếp theo thứ tự chữ cái không phân biệt chữ hoa chữ thường
-        return sorted_domains
+        return sorted(unique_domains, key=str.lower)
     except requests.exceptions.RequestException as e:
         logging.error(f"Error fetching data from {url}: {e}")
     except json.JSONDecodeError as e:
@@ -35,7 +33,8 @@ def fetch_domains_from_url(url):
 def filter_valid_domains(domains):
     valid_domains = set()
     for domain in domains:
-        if "*" not in domain:
+        # Chỉ giữ lại tên miền không chứa ký tự đặc biệt
+        if "*" not in domain and not domain.startswith(".") and domain.count('.') >= 1:
             valid_domains.add(domain)
     return sorted(valid_domains, key=str.lower)
 
@@ -78,8 +77,10 @@ def main():
     # Create tenmien.json with only valid domains
     valid_domains = filter_valid_domains(sorted_domains)
     tenmien_filepath = os.path.join(output_dir, "tenmien.json")
+    
     with open(tenmien_filepath, 'w') as f:
-        json.dump(valid_domains, f, indent=4)
+        for domain in valid_domains:
+            f.write(f"{domain}\n")
         logging.info(f"tenmien.json created at {tenmien_filepath}")
 
 if __name__ == "__main__":
