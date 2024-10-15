@@ -59,7 +59,7 @@ def main():
         unique_domains.update(fetch_domains_from_url(url))
 
     sorted_domains = sorted(list(unique_domains), key=str.lower)
-    new_json_data = {"version": 1, "rules": [{"domain": sorted_domains}]}
+    new_json_data = {"version": 2, "rules": [{"domain": sorted_domains}]}
 
     output_json_filepath = os.path.join(output_dir, "Geosite-vn.json")
     with open(output_json_filepath, 'w') as f:
